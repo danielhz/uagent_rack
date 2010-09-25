@@ -1,0 +1,99 @@
+= uagent_rack
+
+== Install
+
+    gem install uagent_rack
+
+== Usage
+
+Helps you to deal with user agents on top of rack. When a browser
+sends a request to your web application the request has an
+HTTP_USER_AGENT attribute that identifies the device an browser. For
+example, the next string identifies an particular model of iPhone,
+that uses an specific mobile version for Safari.
+
+    Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_1_2 like Mac OS X; en-us) 
+    AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7D11
+    Safari/528.16
+
+Each mobile phone model will send you a particular user agent string,
+thus is a good idea classify the devices in groups an develop a
+specific interface for each group. For each group we define a key, so
+the user agent parser receive the user agent string and returns that
+key. For example, the answer for the string above could be :mobile or
+:iphone, depending on the parser configuration. To known how to
+configure the parser read the
+uagent[http://http://github.com/danielhz/uagent] documentation.
+
+This gem adds the RackParse class to the UAgent module, that extends
+the Parser class. Unlike Parser, that analyzes the HTTP_USER_AGENT
+variable every time, uagent_rack parse the user_agent only the first
+time and store it in the session. Thus, the following requests will be
+answered using the data in the session. Also, an user can change the
+user agent adding a value for the parameter +user_agent+ in the URI
+query.
+
+=== Code example
+
+    require 'rubygmes'
+    require 'uagent_rack'
+
+    parser = UAgent::Parser.new
+
+    # We create an environment with a mobile user agent.
+
+    env1 = {
+      ...
+      "HTTP_USER_AGENT" => "Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_1_2 like Mac OS X; en-us) " +
+          "AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7D11 Safari/528.16",
+      ...
+    }
+
+    parser.call(env1)    # gets :mobile
+
+    # We create another that changes the user agent
+
+    env2 = {
+      ...
+      "QUERY_STRING" => "user_agent=dektop",
+      "REQUEST_URI" => "/index?user_agent=desktop",
+      ...
+    })
+
+    parser.call(env2)    # gets :dektop
+    parser.call(env1)    # gets :dektop
+
+== Install from code
+
+First you need uagent
+
+    $ gem install uagent
+
+Then download the code from the repository:
+
+    $ git clone git@github.com:danielhz/uagent_rack.git
+
+This project uses jeweler to build the gem, so you can use this commands:
+
+    $ rake build            # to build the gem
+    $ rake install          # to build and install the gem in one step
+
+Also, if you want test the gem you can use the spec task:
+
+    $ rake spec
+
+This project uses rcov so you can check the coverage opening the HTML
+file in the coverage directory after running the spec.
+
+== Other Stuff
+
+Author:: Daniel Hernández, daniel@degu.cl
+Version:: 0.0
+License:: GPL V3
+
+== Warranty
+
+This software is provided "as is" and without any express or implied
+warranties, including, without limitation, the implied warranties of
+merchantability and fitness for a particular purpose.
+

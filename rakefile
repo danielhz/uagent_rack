@@ -1,0 +1,53 @@
+require 'rubygems'
+require 'rake'
+require 'spec/rake/spectask'
+require 'rake/rdoctask'
+
+desc 'Default: run rspec tests.'
+task :default => :spec
+
+desc 'Run all tests'
+Spec::Rake::SpecTask.new(:spec) do |t|
+  t.spec_files = Dir.glob('test/*_test.rb')
+  t.spec_opts << '--format specdoc'
+  t.rcov = true
+end
+
+begin
+  require 'jeweler'
+  Jeweler::Tasks.new do |gemspec|
+    gemspec.name = "uagent_rack"
+    gemspec.authors = ["Daniel Hernández"]
+    gemspec.email = "daniel@degu.cl"
+    gemspec.homepage = "http://github.com/danielhz/uagent_rack"
+    gemspec.summary = "Helps you to deal with user agents on top of rack"
+    gemspec.rubyforge_project = "uagent_rack"
+    gemspec.description = "Helps you to deal with user agents on top of rack"
+    gemspec.add_dependency('uagent', '>= 0.0.3')
+    gemspec.add_dependency('rack', '>= 0.9.1')
+  end
+rescue LoadError
+end
+
+begin
+  require 'darkfish-rdoc'
+  DARKFISH_ENABLED = true
+rescue LoadError => ex
+  DARKFISH_ENABLED = false
+end
+
+BASE_RDOC_OPTIONS = [
+  '--line-numbers', '--inline-source',
+  '--main' , 'README.rdoc',
+  '--title', 'uagent'
+]
+
+rd = Rake::RDocTask.new do |rdoc|
+  rdoc.rdoc_dir = 'html'
+  rdoc.title = "uagent_rack"
+  rdoc.options = BASE_RDOC_OPTIONS.dup
+  rdoc.options << '-SHN' << '-f' << 'darkfish' if DARKFISH_ENABLED
+  rdoc.options << '--charset' << 'utf-8'
+  rdoc.rdoc_files.include('README.rdoc')
+  rdoc.rdoc_files.include('lib/**/*.rb', 'doc/**/*.rdoc')
+end
