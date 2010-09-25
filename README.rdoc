@@ -23,7 +23,7 @@ the user agent parser receive the user agent string and returns that
 key. For example, the answer for the string above could be :mobile or
 :iphone, depending on the parser configuration. To known how to
 configure the parser read the
-uagent[http://http://github.com/danielhz/uagent] documentation.
+uagent[http://github.com/danielhz/uagent] documentation.
 
 This gem adds the RackParse class to the UAgent module, that extends
 the Parser class. Unlike Parser, that analyzes the HTTP_USER_AGENT
