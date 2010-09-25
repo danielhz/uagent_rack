@@ -1,16 +1,17 @@
 = uagent_rack
 
+Helps you to deal with user agents on top of rack. 
+
 == Install
 
     gem install uagent_rack
 
 == Usage
 
-Helps you to deal with user agents on top of rack. When a browser
-sends a request to your web application the request has an
-HTTP_USER_AGENT attribute that identifies the device an browser. For
-example, the next string identifies an particular model of iPhone,
-that uses an specific mobile version for Safari.
+When a browser sends a request to your web application the request has
+an HTTP_USER_AGENT attribute that identifies the device an
+browser. For example, the next string identifies an particular model
+of iPhone, that uses an specific mobile version for Safari.
 
     Mozilla/5.0 (iPhone; U; CPU iPhone OS 3_1_2 like Mac OS X; en-us) 
     AppleWebKit/528.18 (KHTML, like Gecko) Version/4.0 Mobile/7D11
